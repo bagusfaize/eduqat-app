@@ -1,8 +1,9 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import { BiDotsHorizontal } from 'react-icons/bi';
+import Button from '@/components/buttons/Button'
 import SessionItem from './session/SessionItem';
+import { BiPlus } from 'react-icons/bi';
 
 const initialData = [
     {
@@ -94,6 +95,13 @@ export default function DragableList({
         console.log('clg res', updatedSessions);
         setData(updatedSessions)
     };
+
+    const onChangeTitle = (newTitle, index) => {
+        const updatedTitle = [...data];
+        updatedTitle[index].title = newTitle
+        console.log('clg title', updatedTitle);
+        // setData(updatedTitle)
+    }
     // const [ordered, setOrdered] = useState(Object.keys(initial));
     // console.log('clg data', data);
     return (
@@ -117,8 +125,8 @@ export default function DragableList({
                                             {...provided.draggableProps}
                                         >
                                             <SessionItem 
-                                                title={item.title} 
-                                                lessons={item.lessons} 
+                                                data={item}
+                                                onChangeTitle={(newTitle)=>onChangeTitle(newTitle, index)}
                                                 onDragEndLesson={(res)=>onDragEndLesson(res, index)}
                                                 dragHandler={...provided.dragHandleProps} 
                                             />
@@ -131,6 +139,14 @@ export default function DragableList({
                     )}
                 </Droppable>
             </DragDropContext>
+            <div className='flex justify-end'>
+                <Button 
+                    icon={<BiPlus size={17}/>} 
+                    text="Add Session" 
+                    onClick={()=>{}}
+                    className="shadow-md"
+                />
+            </div>
         </div>
     )
 }
