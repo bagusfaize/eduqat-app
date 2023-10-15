@@ -7,23 +7,25 @@ import { BsCameraVideo, BsThreeDots, BsThreeDotsVertical } from 'react-icons/bs'
 import MaterialItem from '../material/MaterialItem'
 import { useSessions } from '@/hooks/useSessions'
 import { Input } from '@mui/joy'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
 export default function SessionItem({
     title,
-    handleProps
+    lessons,
+    dragHandler,
+    onDragEndLesson
 }) {
     const { isEdit, setIsEdit } = useSessions();
 
     const handleEdit = () => {
         setIsEdit(!isEdit)
     }
-
-    console.log('clg props', handleProps);
+    // console.log('clg props', dragHandler);
     return (
         <div className='border border-gray-300 rounded-md p-3 bg-white my-3'>
             <div className='flex items-center justify-between py-1 mb-2'>
                 <div className='flex items-center'>
-                    <span {...handleProps}>
+                    <span {...dragHandler}>
                         <MdDragIndicator className='text-xl text-gray-300 mr-2' />
                     </span>
                     {isEdit ?
@@ -50,11 +52,40 @@ export default function SessionItem({
                         </>
                     }
                 </div>
-                <div className='bg-gray-100 p-2 rounded-md'>
+                <div className='bg-gray-100 p-2 rounded-md mr-1'>
                     <BsThreeDots />
                 </div>
             </div>
-            <MaterialItem />
+            <div>
+            <DragDropContext onDragEnd={onDragEndLesson}>
+                <Droppable
+                    droppableId="lesson"
+                // type="COLUMN"
+                // direction="horizontal"
+                >
+                    {(provided) => (
+                        <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                        >
+                            {lessons.map((item, index) => (
+                                <Draggable key={item.id} draggableId={item.id} index={index}>
+                                    {(provided) => (
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                        >
+                                            <MaterialItem data={item} dragHandler={...provided.dragHandleProps} />
+                                        </div>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
+            </div>
         </div>
     )
 }
