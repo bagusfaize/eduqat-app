@@ -5,8 +5,11 @@ import { FaRegEye } from 'react-icons/fa'
 import Header from '@/components/headers/Header'
 import SessionItem from '@/components/dnd/session/SessionItem'
 import DragableList from '@/components/dnd/DragableList'
+import { useDocumentReady } from '@/hooks/useDocumentReady'
 
 export default function Home() {
+  const { isDocumentReady } = useDocumentReady();
+
   return (
     <>
       <Header title='Event' onBack={'#'} />
@@ -31,7 +34,11 @@ export default function Home() {
           </TabList>
           <TabPanel sx={{ background: 'white', paddingX: 0 }}>
             <EventInfo />
-            <DragableList />
+            {isDocumentReady ?
+              <DragableList />
+              :
+              <div>Loading...</div>
+            }
           </TabPanel>
         </Tabs>
       </main>
