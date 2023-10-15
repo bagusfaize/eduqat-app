@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { MdDragIndicator } from 'react-icons/md'
 import { BiEditAlt, BiDownload, BiCheck} from 'react-icons/bi'
@@ -8,7 +9,8 @@ import { useSessions } from '@/hooks/useSessions'
 import { Input } from '@mui/joy'
 
 export default function SessionItem({
-    title
+    title,
+    handleProps
 }) {
     const { isEdit, setIsEdit } = useSessions();
 
@@ -16,11 +18,14 @@ export default function SessionItem({
         setIsEdit(!isEdit)
     }
 
+    console.log('clg props', handleProps);
     return (
-        <div className='border border-gray-300 rounded-md p-3 bg-white mb-5'>
+        <div className='border border-gray-300 rounded-md p-3 bg-white my-3'>
             <div className='flex items-center justify-between py-1 mb-2'>
                 <div className='flex items-center'>
-                    <MdDragIndicator className='text-xl text-gray-300 mr-2' />
+                    <span {...handleProps}>
+                        <MdDragIndicator className='text-xl text-gray-300 mr-2' />
+                    </span>
                     {isEdit ?
                         <>
                             <Input placeholder="Type in here…"/>
