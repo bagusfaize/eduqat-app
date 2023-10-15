@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <Header title='Event' onBack={'#'} />
-      <main className='container p-7'>
+      <main className='container p-7 mx-auto'>
         <ContentHeader />
         <Tabs
           size='lg'
@@ -52,10 +52,12 @@ const ContentHeader = () => (
       <h1 className='text-2xl font-medium'>Belajar dan praktek cinematic videography</h1>
       <p className='text-xs text-gray-500'>Last edited 18 October 2021 at 13:23</p>
     </span>
-    <Button type='outline' onClick={() => { }}>
-      <FaRegEye className='text-lg' />
-      <span>Preview</span>
-    </Button>
+    <Button 
+      type='outline'
+      onClick={() => { }}
+      icon={<FaRegEye className='text-lg' />}
+      text="Preview"
+    />
   </div>
 )
 
