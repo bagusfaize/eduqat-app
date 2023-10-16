@@ -4,6 +4,7 @@ import { AiOutlineClockCircle, AiOutlineCalendar } from 'react-icons/ai'
 import { MdDragIndicator } from 'react-icons/md'
 import { BiEditAlt, BiDownload, BiMap } from 'react-icons/bi'
 import { HiOutlineMapPin } from 'react-icons/hi2'
+import dayjs from 'dayjs'
 
 export default function MaterialItem({
     data,
@@ -40,7 +41,7 @@ export default function MaterialItem({
             <div className='flex items-center'>
                 <div className='flex items-center space-x-2'>
                     <span><AiOutlineCalendar /></span>
-                    <span className='text-sm font-medium'>{`${data.date}, ${data.time}`}</span>
+                    <span className='text-sm font-medium'>{`${dayjs(data.date).format('DD MMMM YYYY')}, ${data.time}`}</span>
                 </div>
                 <div className="w-1.5 h-1.5 bg-gray-300 rounded-full mx-3"></div>
                 <div className='flex items-center space-x-2'>
