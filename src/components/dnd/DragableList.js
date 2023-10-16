@@ -4,6 +4,9 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import Button from '@/components/buttons/Button'
 import SessionItem from './session/SessionItem';
 import { BiPlus } from 'react-icons/bi';
+import { Box, Modal, ModalClose, ModalDialog, Typography, Input } from '@mui/joy';
+import AddSessionModal from '../modals/AddSession';
+import AddLessonModal from '../modals/AddLesson';
 
 const initialData = [
     {
@@ -17,8 +20,8 @@ const initialData = [
                 previewable: true,
                 date: '24 Oktober 2021',
                 time: '16:30',
-                duration: '06:30 Min',
-                downloadable:true,
+                duration: '30 Min',
+                downloadable: true,
                 fileName: 'Downloadable'
             },
             {
@@ -28,8 +31,8 @@ const initialData = [
                 previewable: false,
                 date: '24 Oktober 2021',
                 time: '16:30',
-                duration: '06:30 Min',
-                downloadable:true,
+                duration: '30 Min',
+                downloadable: true,
                 fileName: 'Downloadable'
             }
         ]
@@ -46,7 +49,7 @@ const initialData = [
                 date: '24 Oktober 2021',
                 time: '16:30',
                 duration: '06:30 Min',
-                downloadable:true,
+                downloadable: true,
                 fileName: 'Downloadable'
             },
         ]
@@ -58,14 +61,18 @@ export default function DragableList({
     initial
 }) {
     const [data, setData] = useState(initialData);
-
+    const [isSessionModalOpen, setIsSessionModalOpen] = useState(false);
+    const [isLessonModalOpen, setIsLessonModalOpen] = useState(false);
+    const [selectedIdSession, setselectedIdSession] = useState('');
+    
     const reorder = (list, startIndex, endIndex) => {
         const result = Array.from(list);
         const [removed] = result.splice(startIndex, 1);
         result.splice(endIndex, 0, removed);
-
         return result;
     };
+
+    console.log('clg data', data);
 
     const onDragEndSession = (result) => {
         // console.log('clg drag', result);
@@ -81,7 +88,7 @@ export default function DragableList({
     };
 
     const onDragEndLesson = (result, sessionIndex) => {
-        console.log('clg drag', sessionIndex, result);
+        // console.log('clg drag', sessionIndex, result);
         if (!result.destination) {
             return;
         }
@@ -92,69 +99,132 @@ export default function DragableList({
             result.destination.index
         )
         updatedSessions[sessionIndex].lessons = updatedLessons;
-        console.log('clg res', updatedSessions);
+        // console.log('clg res', updatedSessions);
         setData(updatedSessions)
     };
 
     const onChangeTitle = (newTitle, index) => {
         const updatedTitle = [...data];
         updatedTitle[index].title = newTitle
-        console.log('clg title', updatedTitle);
-        // setData(updatedTitle)
+        // console.log('clg title', updatedTitle);
     }
+
+    const addSessionModal = () => {
+        return (
+            <Modal
+                open={isSessionModalOpen}
+                onClose={() => setIsSessionModalOpen(false)}
+            >
+                <ModalDialog size="sm">
+                    <ModalClose />
+                    <Box>
+                        <Typography level='h4'>Add Session</Typography>
+                        <AddSessionModal onSubmit={handleAddSession}/>
+                    </Box>
+                </ModalDialog>
+            </Modal>
+        )
+    }
+
+    const addLessonModal = () => {
+        return (
+            <Modal
+                open={isLessonModalOpen}
+                onClose={() => setIsLessonModalOpen(false)}
+            >
+                <ModalDialog size="md">
+                    <ModalClose />
+                    <Box>
+                        <Typography level='h4'>Add Lesson</Typography>
+                        <AddLessonModal onSubmit={handleAddLesson}/>
+                    </Box>
+                </ModalDialog>
+            </Modal>
+        )
+    }
+
+    const handleAddLesson = (newLesson) => {
+        const updatedData = [...data];
+        updatedData[selectedIdSession].lessons.push(newLesson);
+        setData(updatedData);
+        setIsLessonModalOpen(false)
+    }
+
+    const handleAddSession = (res) => {
+        const newSession = {
+            id: 'xxx2',
+            title: res.title,
+            lessons: []
+        }
+        const updatedSessions = [...data,newSession];
+        setData(updatedSessions)
+        setIsSessionModalOpen(false)
+        // console.log('clg add sess', title);
+    }
+
+    const handleOpenLessonModal = (id) => {
+        setIsLessonModalOpen(true)
+        setselectedIdSession(id)
+    }
+
     // const [ordered, setOrdered] = useState(Object.keys(initial));
-    // console.log('clg data', data);
+    // console.log('clg selected', selectedIdSession);
     return (
-        <div>
-            <DragDropContext onDragEnd={onDragEndSession}>
-                <Droppable
-                    droppableId="session"
-                // type="COLUMN"
-                // direction="horizontal"
-                >
-                    {(provided) => (
-                        <div
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                        >
-                            {data.map((item, index) => (
-                                <Draggable key={item.id} draggableId={item.id} index={index}>
-                                    {(provided) => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                        >
-                                            <SessionItem 
-                                                data={item}
-                                                onChangeTitle={(newTitle)=>onChangeTitle(newTitle, index)}
-                                                onDragEndLesson={(res)=>onDragEndLesson(res, index)}
-                                                dragHandler={...provided.dragHandleProps} 
-                                            />
-                                        </div>
-                                    )}
-                                </Draggable>
-                            ))}
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
-            </DragDropContext>
-            <div className='flex justify-end'>
-                <Button 
-                    icon={<BiPlus size={17}/>} 
-                    text="Add Session" 
-                    onClick={()=>{}}
-                    className="shadow-md"
-                />
+        <>
+            <div>
+                <DragDropContext onDragEnd={onDragEndSession}>
+                    <Droppable
+                        droppableId="session"
+                    // type="COLUMN"
+                    // direction="horizontal"
+                    >
+                        {(provided) => (
+                            <div
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                            >
+                                {data.map((item, index) => (
+                                    <Draggable key={item.id} draggableId={item.id} index={index}>
+                                        {(provided) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                            >
+                                                <SessionItem
+                                                    data={item}
+                                                    onChangeTitle={(newTitle) => onChangeTitle(newTitle, index)}
+                                                    onDragEndLesson={(res) => onDragEndLesson(res, index)}
+                                                    dragHandler={...provided.dragHandleProps}
+                                                    onOpenLessonModal={()=>handleOpenLessonModal(index)}
+                                                />
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+                <div className='flex justify-end mt-5'>
+                    <Button
+                        icon={<BiPlus size={17} />}
+                        text="Add Session"
+                        onClick={() => setIsSessionModalOpen(true)}
+                        className="shadow-md"
+                    />
+                </div>
+                {addSessionModal()}
+                {addLessonModal()}
             </div>
-        </div>
+        </>
     )
 }
 
-const Container = ({ children }) => {
-    return (
-        <div className='bg-cyan-400 inline-flex'>
-            {children}
-        </div>
-    )
-}
+// const Container = ({ children }) => {
+//     return (
+//         <div className='bg-cyan-400 inline-flex'>
+//             {children}
+//         </div>
+//     )
+// }
