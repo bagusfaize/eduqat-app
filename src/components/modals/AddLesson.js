@@ -2,6 +2,7 @@ import React from 'react'
 import { Checkbox, FormControl, FormLabel, Grid, Input, Option, Select } from '@mui/joy'
 import Button from '@/components/buttons/Button'
 import { useForm } from 'react-hook-form'
+import { nanoid } from 'nanoid';
 
 export default function AddLessonModal({ onSubmit }) {
     const {
@@ -22,10 +23,11 @@ export default function AddLessonModal({ onSubmit }) {
 
     const handleSubmitLesson = (data) => {
         const newLesson = {
-            id: 'ls000',
+            id: nanoid(5),
             title: data.title,
             date: data.date,
             time: data.time,
+            location: data.location,
             duration: `${data.duration} Min`,
             required: data.required,
             previewable: data.previewable,

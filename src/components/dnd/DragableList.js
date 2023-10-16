@@ -7,6 +7,7 @@ import { BiPlus } from 'react-icons/bi';
 import { Box, Modal, ModalClose, ModalDialog, Typography, Input } from '@mui/joy';
 import AddSessionModal from '../modals/AddSession';
 import AddLessonModal from '../modals/AddLesson';
+import { nanoid } from 'nanoid';
 
 const initialData = [
     {
@@ -15,10 +16,11 @@ const initialData = [
         lessons: [
             {
                 id: 's1-01',
-                title: 'Video 1 Session 1',
+                title: 'Video Session 1',
                 required: true,
                 previewable: true,
-                date: '24 Oktober 2021',
+                location: 'online',
+                date: '2021-12-31',
                 time: '16:30',
                 duration: '30 Min',
                 downloadable: true,
@@ -26,32 +28,16 @@ const initialData = [
             },
             {
                 id: 's1-02',
-                title: 'Video 2 Session 1',
+                title: 'Onsite Event Session 1',
                 required: true,
                 previewable: false,
-                date: '24 Oktober 2021',
+                location: 'onsite',
+                date: '2021-12-31',
                 time: '16:30',
                 duration: '30 Min',
                 downloadable: true,
                 fileName: 'Downloadable'
             }
-        ]
-    },
-    {
-        id: 's-2',
-        title: 'Session 2',
-        lessons: [
-            {
-                id: 's1-01',
-                title: 'Video 1 Session 2',
-                required: true,
-                previewable: false,
-                date: '24 Oktober 2021',
-                time: '16:30',
-                duration: '06:30 Min',
-                downloadable: true,
-                fileName: 'Downloadable'
-            },
         ]
     }
 ]
@@ -152,7 +138,7 @@ export default function DragableList({
 
     const handleAddSession = (res) => {
         const newSession = {
-            id: 'xxx2',
+            id: nanoid(5),
             title: res.title,
             lessons: []
         }
@@ -161,6 +147,8 @@ export default function DragableList({
         setIsSessionModalOpen(false)
         // console.log('clg add sess', title);
     }
+
+    console.log('clg data', data);
 
     const handleOpenLessonModal = (id) => {
         setIsLessonModalOpen(true)
