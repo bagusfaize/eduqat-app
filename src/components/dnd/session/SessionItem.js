@@ -28,7 +28,7 @@ export default function SessionItem({
         onChangeTitle(title)
         setIsEditTitle(false)
     }
-    // console.log('clg props', dragHandler);
+    
     return (
         <div className='border border-gray-300 rounded-md p-3 bg-white mb-5'>
             <div className='flex items-center justify-between py-1 mb-2'>

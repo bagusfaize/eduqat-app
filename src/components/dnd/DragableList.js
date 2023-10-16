@@ -58,10 +58,7 @@ export default function DragableList({
         return result;
     };
 
-    console.log('clg data', data);
-
     const onDragEndSession = (result) => {
-        // console.log('clg drag', result);
         if (!result.destination) {
             return;
         }
@@ -74,7 +71,6 @@ export default function DragableList({
     };
 
     const onDragEndLesson = (result, sessionIndex) => {
-        // console.log('clg drag', sessionIndex, result);
         if (!result.destination) {
             return;
         }
@@ -85,14 +81,12 @@ export default function DragableList({
             result.destination.index
         )
         updatedSessions[sessionIndex].lessons = updatedLessons;
-        // console.log('clg res', updatedSessions);
         setData(updatedSessions)
     };
 
     const onChangeTitle = (newTitle, index) => {
         const updatedTitle = [...data];
         updatedTitle[index].title = newTitle
-        // console.log('clg title', updatedTitle);
     }
 
     const addSessionModal = () => {
@@ -145,18 +139,13 @@ export default function DragableList({
         const updatedSessions = [...data,newSession];
         setData(updatedSessions)
         setIsSessionModalOpen(false)
-        // console.log('clg add sess', title);
     }
-
-    console.log('clg data', data);
 
     const handleOpenLessonModal = (id) => {
         setIsLessonModalOpen(true)
         setselectedIdSession(id)
     }
 
-    // const [ordered, setOrdered] = useState(Object.keys(initial));
-    // console.log('clg selected', selectedIdSession);
     return (
         <>
             <div>
