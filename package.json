@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/joy": "^5.0.0-beta.10",
     "clsx": "^2.0.0",
+    "dayjs": "^1.11.10",
     "nanoid": "^5.0.2",
     "next": "13.5.4",
     "react": "^18",
