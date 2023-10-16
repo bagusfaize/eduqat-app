@@ -43,9 +43,7 @@ const initialData = [
 ]
 
 
-export default function DragableList({
-    initial
-}) {
+export default function DragableList() {
     const [data, setData] = useState(initialData);
     const [isSessionModalOpen, setIsSessionModalOpen] = useState(false);
     const [isLessonModalOpen, setIsLessonModalOpen] = useState(false);
@@ -87,6 +85,7 @@ export default function DragableList({
     const onChangeTitle = (newTitle, index) => {
         const updatedTitle = [...data];
         updatedTitle[index].title = newTitle
+        setData(updatedTitle);
     }
 
     const addSessionModal = () => {
@@ -197,11 +196,3 @@ export default function DragableList({
         </>
     )
 }
-
-// const Container = ({ children }) => {
-//     return (
-//         <div className='bg-cyan-400 inline-flex'>
-//             {children}
-//         </div>
-//     )
-// }

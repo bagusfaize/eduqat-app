@@ -11,7 +11,7 @@ export default function MaterialItem({
     dragHandler
 }) {
     return (
-        <div className='flex justify-between hover:bg-gray-50 ml-5 p-1 rounded-md'>
+        <div className='flex justify-between hover:bg-gray-50 ml-5 p-1 rounded-md bg-white'>
             <div className='flex items-center'>
                 <span {...dragHandler}>
                     <MdDragIndicator className='text-xl text-gray-300 mr-2' />
