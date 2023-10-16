@@ -1,8 +1,9 @@
 import React from 'react'
-import { BsCameraVideo, BsThreeDots, BsThreeDotsVertical } from 'react-icons/bs'
+import { BsCameraVideo, BsThreeDotsVertical } from 'react-icons/bs'
 import { AiOutlineClockCircle, AiOutlineCalendar } from 'react-icons/ai'
 import { MdDragIndicator } from 'react-icons/md'
-import { BiEditAlt, BiDownload } from 'react-icons/bi'
+import { BiEditAlt, BiDownload, BiMap } from 'react-icons/bi'
+import { HiOutlineMapPin } from 'react-icons/hi2'
 
 export default function MaterialItem({
     data,
@@ -15,7 +16,11 @@ export default function MaterialItem({
                     <MdDragIndicator className='text-xl text-gray-300 mr-2' />
                 </span>
                 <span className='bg-gray-100 p-2 rounded-md'>
-                    <BsCameraVideo />
+                    {data.location === 'online' ?
+                        <BsCameraVideo />
+                        :
+                        <HiOutlineMapPin />
+                    }
                 </span>
                 <div className='flex items-center'>
                     <span className='text-sm mx-1 font-medium px-2'>{data.title}</span>
